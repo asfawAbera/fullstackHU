@@ -40,20 +40,11 @@ class App extends React.Component {
         count:0
     }}
 good=(e)=>{
-        e.preventDefault();
-        this.setState((prevState)=>({hyva:prevState.hyva+1}))
+    
+        this.setState((prevState)=>({hyva:prevState.hyva+e}))
         this.setState((prevState)=>({count:prevState.count+1}))
     }
-neutral=(e)=>{
-        e.preventDefault();
-        this.setState((prevState)=>({neutral:prevState.neutral+1}))
-        this.setState((prevState)=>({count:prevState.count+1}))
-    }
-bad=(e)=>{
-        e.preventDefault();
-        this.setState((prevState)=>({huono:prevState.huono+1}))
-        this.setState((prevState)=>({count:prevState.count+1}))
-    }
+
   
 render(){
     const good=this.state.hyva;
@@ -64,21 +55,63 @@ render(){
     const calcAverage=(good*1)+(neutral*0)+(bad*-1);
     let ave=sum===0? ave= 0: calcAverage/sum;
     let posRatio=Math.round((good/sum)*1000)/1000;
-    console.log(posRatio*100)
     let pos=sum===0? pos="Waitin...": pos=(posRatio)*100+'%';
-    
+    //conditional statement to return another function for the button
+    const setValue=(x)=>{
+        if(x==='good'){
+            const handler=()=>{
+                this.setState((prevState)=>({
+                    hyva:prevState.hyva+1
+                }))
+                this.setState({
+                    count:this.state.count+1
+                })
+            }
+            return handler;
+        }else if(x==='neutral'){
+            const handler=()=>{
+                this.setState((prevState)=>({
+                    neutral:prevState.neutral+1
+                }))
+                this.setState({
+                    count:this.state.count+1
+                })
+            }
+            return handler;
 
+        }else{
+            const handler=()=>{
+                this.setState((prevState)=>({
+                    huono:prevState.huono+1
+                }))
+                this.setState({
+                    count:this.state.count+1
+                })
+            }
+            return handler;
+
+        }
+        const handler=()=>{
+        this.setState((prevState)=>({
+            hyva:prevState.hyva+1
+        }))
+        this.setState({
+            count:this.state.count+1
+        })
+    }
+        return handler;
+    }
+console.log(good)
   return (
 <div>
         <h1>anna palautetta</h1>
-        <Button good={this.good} bad={this.bad} neutral={this.neutral}/>
+        <Button good={setValue('good')} bad={setValue('bad')} neutral={setValue('neutral')}/>
         <h1>Statistics</h1>
         {
         count!=0 
         ? 
         <div><Stat good={good} neutral={neutral} bad={bad} />
-            <Stats ave={ave} pos={pos}/>
-        </div> 
+            <Stats ave={ave} pos={pos}/></div> 
         :
         "ei yhtään palautetta annettu"
         }
