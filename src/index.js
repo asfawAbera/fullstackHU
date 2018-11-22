@@ -15,19 +15,18 @@ return      (
 //the second compononet to show the statistics
 const Stat =(props)=>{
     return (   
-    <div>
-        <p>hyvä {props.good}</p>
-        <p>neutraali{props.neutral}</p>
-         <p>huono{props.bad}</p>
-         
-        
-  </div>)
+    <tbody>
+        <tr><td>hyvä</td><td> {props.good}</td></tr>
+        <tr><td>neutraali</td><td>{props.neutral}</td></tr>
+        <tr><td>huono</td><td>{props.bad}</td></tr>
+           
+  </tbody>)
 }
 //the third component to show the average and posetivity ratio
 const Stats =(props)=>{
-    return ( <div>
-    <p>Average{Math.round(props.ave*10)/10}</p>
-    <p>Posetiveity:{props.pos}</p></div>)
+    return ( <tbody>
+    <tr><td>Average</td><td>{Math.round(props.ave*10)/10}</td></tr>
+    <tr><td>Posetiveity:</td><td>{props.pos}</td></tr></tbody>)
 }
 //application main holder component
 class App extends React.Component {
@@ -53,9 +52,11 @@ render(){
     const sum=good+neutral+bad;
     const count=this.state.count;
     const calcAverage=(good*1)+(neutral*0)+(bad*-1);
-    let ave=sum===0? ave= 0: calcAverage/sum;
+    let ave=0;
+    ave=sum===0? ave= 0: calcAverage/sum;
     let posRatio=Math.round((good/sum)*1000)/1000;
-    let pos=sum===0? pos="Waitin...": pos=(posRatio)*100+'%';
+    let pos=0;
+    pos=sum===0? pos="Waitin...": pos=(posRatio)*100+'%';
     //conditional statement to return another function for the button
     const setValue=(x)=>{
         if(x==='good'){
@@ -91,16 +92,8 @@ render(){
             return handler;
 
         }
-        const handler=()=>{
-        this.setState((prevState)=>({
-            hyva:prevState.hyva+1
-        }))
-        this.setState({
-            count:this.state.count+1
-        })
     }
-        return handler;
-    }
+ 
 console.log(good)
   return (
 <div>
@@ -108,10 +101,11 @@ console.log(good)
         <Button good={setValue('good')} bad={setValue('bad')} neutral={setValue('neutral')}/>
         <h1>Statistics</h1>
         {
-        count!=0 
+        count!==0 
         ? 
-        <div><Stat good={good} neutral={neutral} bad={bad} />
-            <Stats ave={ave} pos={pos}/></div> 
+        
+            <table><Stat good={good} neutral={neutral} bad={bad} />
+            <Stats ave={ave} pos={pos}/></table> 
         :
         "ei yhtään palautetta annettu"
         }
