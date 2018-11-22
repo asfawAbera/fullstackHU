@@ -1,7 +1,34 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-
+//the first componenet of button
+const Button =(props)=>{
+return      ( 
+<table>
+<thead>
+    <tr>
+        <td><button onClick={props.good}>hyvä</button></td>
+        <td><button onClick={props.neutral}>neutraali</button></td>
+        <td><button onClick={props.bad}>huono</button></td></tr></thead>
+</table>);
+}
+//the second compononet to show the statistics
+const Stat =(props)=>{
+    return (   
+    <div>
+        <p>hyvä {props.good}</p>
+        <p>neutraali{props.neutral}</p>
+         <p>huono{props.bad}</p>
+        
+  </div>)
+}
+//the third component to show the average and posetivity ratio
+const Stats =(props)=>{
+    return ( <div>
+    <p>Average{Math.round(props.ave*10)/10}</p>
+    <p>Posetiveity:{props.pos}</p></div>)
+}
+//application main holder component
 class App extends React.Component {
   constructor(props){
     super(props)
@@ -35,30 +62,15 @@ render(){
     let pos=sum===0? pos="Waitin...": pos=(posRatio)*100+'%';
 
   return (
-    <div><h1>anna palautetta</h1>
-        <table>
-            <thead>
-                <tr>
-                    <td><button onClick={this.good}>hyvä</button></td>
-                    <td><button onClick={this.neutral}>neutraali</button></td>
-                    <td><button onClick={this.bad}>huono</button></td></tr></thead>
-            </table>
-            <h1>Statistics</h1>
-            <table>
-                <tbody>
-                <tr><td>hyvä </td><td>{good}</td></tr>
-                <tr><td>neutraali</td><td>{neutral}</td></tr>
-                 <tr><td>huono</td><td>{bad}</td></tr>
-                <tr><td>Average</td><td>{Math.round(ave*10)/10}</td></tr>
-               
-                <tr><td>Posetive Feedback:</td><td>{pos}</td></tr>
-            </tbody>
-        </table>
+<div>
+        <h1>anna palautetta</h1>
+        <Button good={this.good} bad={this.bad} neutral={this.neutral}/>
+        <h1>Statistics</h1>
+        <Stat good={good} neutral={neutral} bad={bad}/>
+        <Stats ave={ave} pos={pos}/>
+    
 
-        
-      
-        
-     </div>)
+</div>)
      }
 }
 
