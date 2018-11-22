@@ -27,16 +27,36 @@ render(){
     const good=this.state.hyva;
     const neutral=this.state.neutral;
     const bad=this.state.huono;
-  return (
-    <div>
-        <button onClick={this.good}>hyvä</button><br />
-        <button onClick={this.neutral}>neutraali</button><br />
-        <button onClick={this.bad}>huono</button><br />
+    const sum=good+neutral+bad;
+    const calcAverage=(good*1)+(neutral*0)+(bad*-1);
+    let ave=sum===0? ave= 0: calcAverage/sum;
+    let posRatio=Math.round((good/sum)*1000)/1000;
+    console.log(posRatio*100)
+    let pos=sum===0? pos="Waitin...": pos=(posRatio)*100+'%';
 
-        <h1>Statistics</h1>
-        <p>hyvä <span>{good}</span></p>
-        <p>neutraali <span>{neutral}</span></p>
-        <p>huono <span>{bad}</span></p>
+  return (
+    <div><h1>anna palautetta</h1>
+        <table>
+            <thead>
+                <tr>
+                    <td><button onClick={this.good}>hyvä</button></td>
+                    <td><button onClick={this.neutral}>neutraali</button></td>
+                    <td><button onClick={this.bad}>huono</button></td></tr></thead>
+            </table>
+            <h1>Statistics</h1>
+            <table>
+                <tbody>
+                <tr><td>hyvä </td><td>{good}</td></tr>
+                <tr><td>neutraali</td><td>{neutral}</td></tr>
+                 <tr><td>huono</td><td>{bad}</td></tr>
+                <tr><td>Average</td><td>{Math.round(ave*10)/10}</td></tr>
+               
+                <tr><td>Posetive Feedback:</td><td>{pos}</td></tr>
+            </tbody>
+        </table>
+
+        
+      
         
      </div>)
      }
